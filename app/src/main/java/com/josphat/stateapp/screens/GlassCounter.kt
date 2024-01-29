@@ -24,14 +24,16 @@ import kotlinx.coroutines.flow.update
 @Composable
 fun GlassCounter(
     modifier: Modifier = Modifier,
-    viewModel: GlassCounterVM = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: GlassCounterVM = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
+
     val state = viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp)
     ) {
+
         Text(
             "You have had ${state.value.glassCount} glasses of water today!",
             modifier = Modifier.padding(vertical = 28.dp),
@@ -41,33 +43,29 @@ fun GlassCounter(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
         ) {
             Button(
                 onClick = {
-                    if (state.value.glassCount >= 6) {
+                    if (state.value.glassCount >= 6){
                         Toast.makeText(
-                            context,
-                            "Congratulations for Hydrating",
-                            Toast.LENGTH_SHORT,
+                            context, "Congratulations for Hydrating", Toast.LENGTH_SHORT
                         ).show()
                     }
                     viewModel.onIncrement()
-                },
+                }
             ) {
                 Text(text = "Add ")
             }
             Button(
                 onClick = {
-                    if (state.value.glassCount <= 1) {
+                    if (state.value.glassCount <= 1){
                         Toast.makeText(
-                            context,
-                            "Stop! You're dehydrating",
-                            Toast.LENGTH_SHORT,
+                            context, "Stop! You're dehydrating", Toast.LENGTH_SHORT
                         ).show()
                     }
                     viewModel.onDecrement()
-                },
+                }
             ) {
                 Text(text = "Remove")
             }
@@ -75,30 +73,32 @@ fun GlassCounter(
     }
 }
 
-class GlassCounterVM : ViewModel() {
+class GlassCounterVM : ViewModel(){
 
     private var _uiState = MutableStateFlow(GlassCounterState())
-    val uiState: StateFlow<GlassCounterState> = _uiState.asStateFlow()
+    val uiState : StateFlow<GlassCounterState> = _uiState.asStateFlow()
 
-    fun onIncrement() {
+
+    fun onIncrement(){
         _uiState.update { state ->
             state.copy(
-                glassCount = state.glassCount + 1,
+                glassCount = state.glassCount + 1
             )
         }
     }
 
-    fun onDecrement() {
+    fun onDecrement(){
         _uiState.update { state ->
             state.copy(
-                glassCount = state.glassCount - 1,
+                glassCount = state.glassCount - 1
             )
         }
     }
 }
 
+
 data class GlassCounterState(
-    val glassCount: Int = 0,
+    val glassCount : Int = 0
 )
 
 @Preview(showBackground = true)
